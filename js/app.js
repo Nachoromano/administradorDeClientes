@@ -15,10 +15,10 @@
 
     //creala base de datos de indexedDB
     function crearDB(){
-        const crearDB = window.indexedDB.open('crm',1);
+        let crearDB = window.indexedDB.open('crm',1);
 
         crearDB.onerror = function (){
-            console.log('hubo un error');
+            imprimirAlerta('hubo un error');
         };
 
         crearDB.onsuccess = function (){
@@ -107,7 +107,5 @@
                 }
         }
     }
-
-
     }
 })();

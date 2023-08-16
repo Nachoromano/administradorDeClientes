@@ -1,6 +1,5 @@
 (function(){
     let DB;
-    let transaction;
     const formulario = document.querySelector('#formulario')
 
     document.addEventListener('DOMContentLoaded',()=>{
@@ -10,6 +9,18 @@
         formulario.addEventListener('submit',validarCliente)
 
     });  
+    function conectarDB(){
+        const abrirConexion = window.indexedDB.open('crm',1);
+    
+        abrirConexion.onerror = function (){
+            console.log('hubo un error');
+        };
+    
+        abrirConexion.onsuccess = function(){
+            DB = abrirConexion.result;
+        }
+    }  
+    
 
     function validarCliente(e) {
         e.preventDefault();
@@ -35,15 +46,13 @@
             empresa,
         }
 
-
         cliente.id = Date.now();
 
         crearNuevoCliente(cliente);
     }
 
     function crearNuevoCliente(cliente){
-        transaction = DB.transaction(['crm'], 'readwrite');
-
+        const transaction = DB.transaction(['crm'], 'readwrite');
         const objectStore = transaction.objectStore('crm');
         
         objectStore.add(cliente);
